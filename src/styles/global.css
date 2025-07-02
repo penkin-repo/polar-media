@@ -1,5 +1,4 @@
 @import "keen-slider/keen-slider.min.css";
-
 @import "pico.css";
 @import "photoswipe/style.css";
 
@@ -35,6 +34,8 @@
 html {
   scroll-behavior: smooth;
 }
+
+/* Кастомизация keen-slider */
 
 [class^="number-slide"],
 [class*=" number-slide"] {
