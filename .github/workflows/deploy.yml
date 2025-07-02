@@ -41,18 +41,27 @@ jobs:
         run: pnpm run build
 
       # ШАГ 6: Загружаем результат сборки на хостинг (этот блок без изменений)
-      - name: FTP Deploy
-        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+      - name: SFTP Deploy
+        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
+          # Адрес сервера (тот же, что и для FTP)
           server: ${{ secrets.FTP_SERVER }}
+          # Логин (тот же)
           username: ${{ secrets.FTP_USERNAME }}
+          # Пароль (тот же)
           password: ${{ secrets.FTP_PASSWORD }}
           
-          # Явно указываем протокол SFTP и его стандартный порт
-          # Timeweb использует стандартный порт 22
-          protocol: sftp
+          # Порт SFTP
           port: 22
           
-          local-dir: ./dist/
-          server-dir: /polar-media/public_html/
-          dangerous-clean-slate: false
+          # Локальная папка, которую нужно загрузить
+          local_path: ./dist/
+          
+          # Папка на сервере, куда загружать
+          remote_path: /polar-media/public_html/
+          
+          # (Опционально) Аргументы. '-a' означает "архивный режим",
+          # '-v' - подробный вывод, '-z' - сжатие.
+          # '--delete' удалит старые файлы на сервере (аналог dangerous-clean-slate).
+          # Используйте --delete с осторожностью!
+          # args: -avz --delete
