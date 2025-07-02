@@ -10,7 +10,6 @@ const slides = [
     { src: slide1, alt: "Третий слайд", slideClass: "number-slide3" },
 ];
 ---
-
 <div id="hero-slider" class="keen-slider">
     {
         slides.map((slide) => (
@@ -33,14 +32,15 @@ const slides = [
 </div>
 
 <script>
+    const test = document.getElementById("hero-slider") as HTMLElement;
     // @ts-ignore
     import KeenSlider from "keen-slider";
     // @ts-ignore
     import type { KeenSliderInstance, KeenSliderPlugin } from "keen-slider";
 
-    // ТИПЫ: Описываем плагин навигации
+    // Описываем плагин навигации
     const navigation: KeenSliderPlugin = (slider: KeenSliderInstance) => {
-        // МОДЕРНИЗАЦИЯ: Используем `let` и явно указываем типы
+        // Используем `let` и явно указываем типы
         let wrapper: HTMLDivElement | null = null;
         let dots: HTMLDivElement | null = null;
         let arrowLeft: HTMLDivElement | null = null;
@@ -149,81 +149,12 @@ const slides = [
     const keenSliderInstance = new KeenSlider("#hero-slider", { loop: true }, [
         navigation,
     ]);
+    test.style.opacity = "1";
+    console.log(test.style.display);
 </script>
 
-<style is:global>
-    [class^="number-slide"],
-    [class*=" number-slide"] {
-        cursor: grab;
-    }
-
-    [class^="number-slide"]:active,
-    [class*=" number-slide"]:active {
-        cursor: grabbing;
-    }
-
-    .navigation-wrapper {
-        position: relative;
-    }
-
-    .dots {
-        display: flex;
-        padding: 20px 0;
-        justify-content: center;
-    }
-
-    .dot {
-        border: none;
-        width: 10px;
-        height: 10px;
-        background: #c5c5c5;
-        border-radius: 50%;
-        margin: 0 5px;
-        padding: 5px;
-        cursor: pointer;
-        transition: background-color 0.2s;
-    }
-
-    .dot:focus {
-        outline: none;
-    }
-
-    .dot.dot--active {
-        background: #000;
-        opacity: 1;
-    }
-
-    .arrow {
-        width: 24px;
-        height: 24px;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        -webkit-transform: translateY(-50%);
-        cursor: pointer;
-        opacity: 0.7;
-        transition: opacity 0.2s;
-        background-size: contain;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-
-    .arrow:hover {
-        opacity: 1;
-    }
-
-    .arrow--left {
-        left: 10px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M16.67 0l2.83 2.829-9.339 9.175 9.339 9.167-2.83 2.829-12.17-11.996z'/%3E%3C/svg%3E");
-    }
-
-    .arrow--right {
-        right: 10px;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='white'%3E%3Cpath d='M5 3l3.057-3 11.943 12-11.943 12-3.057-3 9-9z'/%3E%3C/svg%3E");
-    }
-
-    .arrow--disabled {
-        opacity: 0.3;
-        cursor: not-allowed;
-    }
+<style >
+#hero-slider {
+    opacity: 0;
+}
 </style>

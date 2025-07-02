@@ -47,7 +47,7 @@ const { address, topLinks, bottomLinks } = headerData;
     <nav class="header__bottom">
         <!-- 🦜 логотип -->
         <a href="/" class="header__logo"
-            ><img src={logo.src} alt="logo polar media" /></a
+            ><img src={logo.src} width="220" alt="logo polar media" /></a
         >
         <!-- 🦜 иконка поиска -->
         <a href="#categorySearchAnchor"><Icons icon="search" /></a>
@@ -147,10 +147,12 @@ const { address, topLinks, bottomLinks } = headerData;
 
         .header__navigation {
             margin: 0;
+            min-width: 64px;
         }
 
         .header__mobile-menu.dropdown {
             display: none;
+            min-width: 64px;
             @media (max-width: 1024px) {
                 display: block;
             }

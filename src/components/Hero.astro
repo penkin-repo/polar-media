@@ -6,9 +6,11 @@ import HeroSlider from "./HeroSlider.astro";
 <section class="hero container">
     <div class="hero__wrapper grid">
         <div class="hero__content">
-            <div class="hero__rating">5<Icons icon="star" />Рейтинг ВК</div>
+            <div class="hero__rating">
+                5 <div class="hero__rating__star"><Icons icon="star" /></div> Рейтинг ВК
+            </div>
             <h1 class="hero__title">
-                Производство рекламы в&nbsp;Архангельске📣
+                Производство рекламы в&nbsp;Архангельске
             </h1>
             <p>
                 Печать баннеров, полиграфия, сувениры и наружная реклама в
@@ -19,8 +21,10 @@ import HeroSlider from "./HeroSlider.astro";
                 <a href="/contacts" role="button" class="contrast" tabindex="0"
                     >Связаться</a
                 >
-                <a href="#categorySearchAnchor" role="button" class="hero__search"
-                    ><Icons icon="search" /></a
+                <a
+                    href="#categorySearchAnchor"
+                    role="button"
+                    class="hero__search"><Icons icon="search" /></a
                 >
             </div>
         </div>
@@ -56,9 +60,9 @@ import HeroSlider from "./HeroSlider.astro";
             }
 
             .hero__search {
-              @media (max-width: 576px) {
-                display: none;
-              }  
+                @media (max-width: 576px) {
+                    display: none;
+                }
             }
 
             .fa-magnifying-glass {
@@ -80,6 +84,10 @@ import HeroSlider from "./HeroSlider.astro";
             margin-bottom: 20px;
             @media (max-width: 1024px) {
                 margin-bottom: 10px;
+            }
+            .hero__rating__star {
+                display: inline-flex;
+                width: 20px;
             }
         }
     }
