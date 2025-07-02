@@ -1,0 +1,19 @@
+---
+
+---
+
+<section class="container pages-section">
+    <slot />
+</section>
+
+<style>
+    .pages-section {
+        margin-bottom: calc(var(--pico-spacing) * 5);
+        margin-top: calc(var(--pico-spacing) * 5);
+
+        @media (max-width: 576px) {
+            margin-top: calc(var(--pico-spacing) * 3);
+            margin-bottom: calc(var(--pico-spacing) * 3);
+        }
+    }
+</style>

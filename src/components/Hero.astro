@@ -1,0 +1,76 @@
+---
+import Icons from "./Icons.astro";
+import HeroSlider from "./HeroSlider.astro";
+---
+
+<section class="hero container">
+    <div class="hero__wrapper grid">
+        <div class="hero__content">
+            <div class="hero__rating">5<Icons icon="star" />Рейтинг ВК</div>
+            <h1 class="hero__title">
+                Производство рекламы в&nbsp;Архангельске📣
+            </h1>
+            <p>
+                Печать баннеров, полиграфия, сувениры и наружная реклама в
+                Архангельске
+            </p>
+            <div class="hero__buttons grid">
+                <a href="/services" role="button" tabindex="0">Все услуги</a>
+                <a href="/contacts" role="button" class="contrast" tabindex="0"
+                    >Связаться</a
+                >
+                <a href="#categorySearchAnchor" role="button" class=""
+                    ><Icons icon="search" /></a
+                >
+            </div>
+        </div>
+        <div class="hero__slider">
+            <HeroSlider />
+        </div>
+    </div>
+</section>
+
+<style>
+    .hero {
+        margin-bottom: calc(var(--pico-spacing) * 3);
+    }
+    .hero__wrapper {
+        padding: 50px;
+        border-radius: 10px;
+        background-color: var(--color-gray);
+
+        @media (max-width: 1024px) {
+            padding: 20px;
+        }
+
+        .hero__buttons {
+            grid-template-columns: 1fr 1fr 60px;
+
+            @media (max-width: 1024px) {
+                grid-template-columns: 1fr 1fr 60px;
+                gap: 5px;
+            }
+
+            .fa-magnifying-glass {
+                font-size: 18px;
+                @media (max-width: 576px) {
+                    font-size: 16px;
+                }
+            }
+        }
+
+        .hero__title {
+            font-family: "Yeseva One", serif;
+            @media (min-width: 1024px) {
+                font-size: 56px;
+            }
+        }
+
+        .hero__rating {
+            margin-bottom: 20px;
+            @media (max-width: 1024px) {
+                margin-bottom: 10px;
+            }
+        }
+    }
+</style>

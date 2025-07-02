@@ -1,0 +1,30 @@
+---
+import "../styles/pico.css";
+import "../styles/global.css";
+import SecondaryLayout from "../layouts/SecondaryLayout.astro";
+---
+
+<SecondaryLayout
+    title="Ошибка 404 | Полар Медиа | Производство рекламы"
+    pageTitle="Ошибка 404"
+>
+    <div class="container">
+        <div class="page-404">
+            <p>Неправильно набран адрес, или такой страницы больше не существует.</p>
+            <p>Вернитесь на <a href="/" class="contrast">главную</a>.</p>
+        </div>
+    </div>
+</SecondaryLayout>
+
+<style>
+    .page-404 {
+        margin: 0 auto;
+        max-width: 400px;
+        margin-top: calc(var(--pico-spacing) * 5);
+        margin-bottom: calc(var(--pico-spacing) * 5);
+        @media (max-width: 576px) {
+            margin-top: calc(var(--pico-spacing) * 3);
+            margin-bottom: calc(var(--pico-spacing) * 3);
+        }
+    }
+</style>

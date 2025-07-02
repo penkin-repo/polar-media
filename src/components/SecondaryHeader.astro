@@ -1,0 +1,199 @@
+---
+import Icons from "./Icons.astro";
+import logo from "../assets/images/svg/logo-main2.svg";
+
+import { headerData } from "../data/info";
+const { address, topLinks, bottomLinks } = headerData;
+---
+
+<div class="wrapper">
+    <header class="header container">
+        <!-- 🦜 шапка -->
+        <nav class="header__top">
+            <!-- 🦜 адрес -->
+            <ul>
+                <li>
+                    <a href={address.href}
+                        ><Icons icon="map" /><small>{address.label}</small></a
+                    >
+                </li>
+            </ul>
+            <!-- 🦜 топ-бар -->
+            <ul>
+                {
+                    topLinks.map((link) => (
+                        <li>
+                            <a
+                                href={link.href}
+                                {...(link.isEmail && {
+                                    "data-tooltip": "Скопировать",
+                                    "data-placement": "bottom",
+                                    "data-copy-email": true,
+                                })}
+                            >
+                                <Icons icon={link.icon} />
+                                <small>{link.label}</small>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </nav>
+        <nav class="header__bottom">
+            <!-- 🦜 логотип -->
+            <a href="/" class="header__logo"
+                ><img src={logo.src} alt="logo polar media" /></a
+            >
+            <!-- 🦜 иконка поиска -->
+            <a href="#categorySearchAnchor"><Icons icon="search" /></a>
+            <!-- 🦜 десктопное меню -->
+            <details class="dropdown header__navigation">
+                <summary>Навигация</summary>
+                <ul>
+                    {
+                        bottomLinks.map((link) => (
+                            <li>
+                                <a href={link.href}>{link.label}</a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </details>
+            <!-- 🦜 мобильное меню -->
+            <details class="dropdown header__mobile-menu">
+                <summary><Icons icon="menu" /></summary>
+                <ul>
+                    {
+                        topLinks.map((link) => (
+                            <li>
+                                <a href={link.href}>
+                                    <Icons icon={link.icon} />
+                                    <small>{link.label}</small>
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </details>
+        </nav>
+    </header>
+</div>
+
+<style>
+    /* ==========================================================================
+   Header Component Customizations
+   (Стили для кастомизации и переопределения библиотеки)
+   ========================================================================== */
+    .wrapper {
+        background-color: var(--color-gray);
+        padding-top: 15px;
+    }
+    header.header {
+        padding-block: 0;
+
+        .header__top {
+            /* margin-top: 15px; */
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+            @media (max-width: 1024px) {
+                display: none;
+            }
+
+            ul {
+                display: flex;
+                gap: 26px;
+                margin: 0;
+
+                li {
+                    padding: 0;
+
+                    a {
+                        padding: 0;
+                        margin: 0;
+                    }
+                }
+            }
+        }
+
+        .header__bottom {
+            display: flex;
+            gap: 26px;
+            align-items: center;
+            margin-top: 15px;
+            padding-bottom: 15px;
+            @media (max-width: 1024px) {
+                gap: 10px;
+            }
+        }
+
+        .header__logo {
+            display: flex;
+            align-items: center;
+            width: 220px;
+            flex: 1;
+
+            img {
+                height: 40px;
+                width: auto;
+                display: block;
+            }
+        }
+
+        .header__navigation {
+            margin: 0;
+        }
+
+        .header__mobile-menu.dropdown {
+            display: none;
+            @media (max-width: 1024px) {
+                display: block;
+            }
+            ul {
+                right: 0;
+                left: auto;
+            }
+        }
+    }
+</style>
+
+<script>
+    // 1. Находим ссылку по нашему новому атрибуту
+    const emailLink = document.querySelector(
+        "[data-copy-email]",
+    ) as HTMLAnchorElement;
+
+    // Проверяем, что элемент нашелся, прежде чем вешать обработчик
+    if (emailLink) {
+        // 2. Добавляем обработчик клика
+        emailLink.addEventListener("click", function (event: MouseEvent) {
+            // 3. Отменяем стандартное поведение (не открывать почтовый клиент)
+            event.preventDefault();
+
+            // 4. Получаем email из атрибута href и убираем "mailto:"
+            const email = this.href.replace("mailto:", "");
+
+            // 5. Используем современный Clipboard API для копирования
+            navigator.clipboard
+                .writeText(email)
+                .then(() => {
+                    // УСПЕХ: Код выполнится, если копирование прошло успешно
+
+                    // 6. Обратная связь для пользователя: меняем подсказку
+                    const originalTooltip = this.dataset.tooltip; // Сохраняем исходный текст
+                    this.dataset.tooltip = "Скопировано!";
+
+                    // 7. Возвращаем исходную подсказку через 2 секунды
+                    setTimeout(() => {
+                        this.dataset.tooltip = originalTooltip;
+                    }, 2000);
+                })
+                .catch((err) => {
+                    // ОШИБКА: Если копирование не удалось
+                    console.error("Не удалось скопировать почту: ", err);
+                    // Можно также показать сообщение об ошибке в подсказке
+                    this.dataset.tooltip = "Ошибка копирования";
+                });
+        });
+    }
+</script>

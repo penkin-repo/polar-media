@@ -1,0 +1,51 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+import 'keen-slider/keen-slider.min.css'
+import 'photoswipe/style.css';
+
+const { title = "Типография Архангельск" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ru" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="color-scheme" content="light dark" />
+    <!-- 🦜 иконка сайта -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <!-- 🦜 подключение шрифта -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap"
+      rel="stylesheet"
+    />
+    <!-- 🦜 заголовок страницы -->
+    <title>{title}</title>
+    <script
+      src="https://kit.fontawesome.com/4f2fbbed78.js"
+      crossorigin="anonymous"></script>
+  </head>
+  <body>
+    <Header />
+    <main><slot /></main>
+    <Footer />
+  </body>
+</html>
+
+<script>
+  // @ts-ignore
+  import PhotoSwipeLightbox from '/node_modules/photoswipe/dist/photoswipe-lightbox.esm.js';
+
+  const lightbox = new PhotoSwipeLightbox({
+      gallery: '#gallery--getting-started',
+      children: 'a',
+      // @ts-ignore
+      pswpModule: () => import('/node_modules/photoswipe/dist/photoswipe.esm.js'),
+  });
+
+  lightbox.init();
+</script>

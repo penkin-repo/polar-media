@@ -1,0 +1,97 @@
+---
+import PagesSlider from "./PagesSlider.astro";
+import { typografify } from "../utils/typography";
+import Icons from "./Icons.astro";
+import ModalContacts from "./ModalContacts.astro";
+import type { ImageMetadata } from "astro";
+
+type GlobImageImport = {
+    default: ImageMetadata;
+};
+
+const imageImports: GlobImageImport[] = await Astro.glob(
+    `../assets/images/banners/*`,
+);
+---
+
+<div class="pages-hero grid">
+    <div>
+        <h2 class="pages-hero__title">
+            {typografify("Стоимость от 180 руб/м²")}
+        </h2>
+
+        <p>
+            {
+                typografify(
+                    "Широкоформатная печать рекламных баннеров. Возможность срочной печати и бесплатной доставки по Архангельску",
+                )
+            }
+        </p>
+
+        <table class="pages-hero__table">
+            <tr>
+                <td
+                    ><Icons icon="bolt" />
+                    <b><i>Печать день в день</i></b> (по договоренности)</td
+                >
+            </tr>
+            <tr>
+                <td
+                    ><Icons icon="car" />
+                    <b><i>Бесплатная доставка</i></b> при заказе от 5000 руб.</td
+                >
+            </tr>
+            <tr>
+                <td
+                    ><Icons icon="gem" /> Плотность выше <b><i>400 г/м²</i></b
+                    ></td
+                >
+            </tr>
+            <tr>
+                <td>
+                    <Icons icon="wrench" /> Дизайн, печать, монтаж. Работаем <b
+                        ><i>«Под ключ»</i></b
+                    ></td
+                >
+            </tr>
+        </table>
+
+        <button role="button"><Icons icon="calc" /> Калькулятор</button>
+        <button class="contrast" id="modalContacts">Заказать</button>
+        <!--  -->
+        <ModalContacts id="confirm-modal" />
+        <button id="open-modal-btn">Open Modal</button>
+        <!--  -->
+    </div>
+
+    <PagesSlider imageImports={imageImports} />
+</div>
+
+<script>
+    import { initializeModal } from "../utils/initializeModal";
+
+    initializeModal(
+        "confirm-modal",
+        "open-modal-btn",
+        [
+            "confirm-modal-close",
+        ],
+    );
+
+    initializeModal('confirm-modal', 'open-modal-btn', ['confirm-modal-close']);
+</script>
+
+<style>
+    .pages-hero {
+        gap: 2rem;
+
+        .pages-hero__title,
+        h2 {
+            text-align: left;
+        }
+
+        .pages-hero__table {
+            width: fit-content;
+        }
+    }
+</style>

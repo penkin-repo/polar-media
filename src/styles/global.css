@@ -1,0 +1,31 @@
+:root {
+
+  /* Цветовая палитра */
+  --color-gray: #F7F7F7;
+
+  /* Шрифты */
+  h2 {
+    font-family: "Yeseva One", serif;
+    text-align: center;
+  }
+
+  h3 {
+    font-family: "Yeseva One", serif;
+    text-align: center;
+  }
+
+  h4 {
+    font-family: "Yeseva One", serif;
+    text-align: center;
+  }
+
+  h5 {
+    font-family: "Yeseva One", serif;
+    text-align: center;
+  }
+
+}
+
+html {
+  scroll-behavior: smooth;
+}

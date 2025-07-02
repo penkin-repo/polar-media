@@ -1,0 +1,89 @@
+---
+import { Image } from "astro:assets";
+const imageImports = await Astro.glob("../assets/images/gallery/*");
+---
+
+<div class="works container" id="gallery--getting-started">
+    {
+        imageImports.map((image) => (
+            <div class="tile">
+                <a
+                    href={image.default.src}
+                    data-pswp-width={image.default.width}
+                    data-pswp-height={image.default.height}
+                    target="_blank"
+                >
+                    <Image
+                        src={image.default}
+                        class=""
+                        width={500}
+                        format="webp"
+                        quality={80}
+                        alt="image"
+                    />
+                </a>
+            </div>
+        ))
+    }
+</div>
+
+<style>
+    .works {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+        gap: 30px;
+
+        margin-bottom: calc(var(--pico-spacing) * 5);
+        margin-top: calc(var(--pico-spacing) * 5);
+
+        @media (max-width: 768px) {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px
+        }
+
+        @media (max-width: 576px) {
+            margin-top: calc(var(--pico-spacing) * 3);
+            margin-bottom: calc(var(--pico-spacing) * 3);
+        }
+
+    }
+
+    .tile {
+        background-color: #0078d4;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        aspect-ratio: 1 / 1;
+        border-radius: 10px;
+        overflow: hidden;
+        transition:
+            transform 0.2s ease-out,
+            box-shadow 0.2s ease-out;
+    }
+
+    .tile a {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    .tile a {
+        user-select: none;
+        transition: opacity 1s ease-in-out;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .tile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: opacity 1s ease-in-out;
+    }
+</style>

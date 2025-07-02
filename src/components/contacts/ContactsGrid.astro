@@ -1,0 +1,144 @@
+---
+// import Icons from "../Icons.astro";
+import { Image } from "astro:assets";
+import bear from "../../assets/images/bear/bear-call2.png";
+import { address, telegram, whatsapp, mail, phone } from "../../data/info";
+---
+
+<div class="container contacts">
+    <div class="contacts__image">
+        <Image
+            src={bear}
+            class=""
+            width={500}
+            format="webp"
+            quality={80}
+            alt="polar media bear"
+        />
+    </div>
+    <div class="grid contacts__grid">
+        <!-- карточки контактов -->
+        <!-- карточка адреса офиса -->
+        <div class="contacts__card">
+            <div class="contacts__title">
+                <h4>Адрес офиса</h4>
+            </div>
+            <div class="contacts__body">
+                
+                <a
+                    href={address.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="contacts__link"
+                    data-tooltip="Открыть в Яндекс.Картах"
+                >
+                    <span>{address.label}</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- карточка телефона -->
+        <div class="contacts__card">
+            <div class="contacts__title">
+                <h4>Телефон</h4>
+            </div>
+            <div class="contacts__body">
+                <a href={phone.href} class="contacts__link">
+                    <span>{phone.label}</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- карточка email -->
+        <div class="contacts__card">
+            <div class="contacts__title">
+                <h4>Email</h4>
+            </div>
+            <div class="contacts__body">
+                <a href={mail.href} class="contacts__link">
+                    <span>{mail.label}</span>
+                </a>
+            </div>
+        </div>
+        <!-- карточка соц.сетей -->
+        <div class="contacts__card">
+            <div class="contacts__title">
+                <h4>Соц.сети</h4>
+            </div>
+            <div class="contacts__body">
+                <a href={telegram.href} class="contacts__link">
+                    <span>{telegram.label}</span>
+                </a>
+                <a href={whatsapp.href} class="contacts__link">
+                    <span>{whatsapp.label}</span>
+                </a>
+            </div>
+        </div>
+        <!-- Закрытие карточек -->
+    </div>
+</div>
+
+<style>
+    .contacts {
+        gap: 10px;
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+        margin-top: calc(var(--pico-spacing) * 5);
+        margin-bottom: calc(var(--pico-spacing) * 5);
+        @media (max-width: 1024px) {
+            grid-template-columns: 1fr;
+        }
+        @media (max-width: 576px) {
+            margin-top: calc(var(--pico-spacing) * 3);
+            margin-bottom: calc(var(--pico-spacing) * 3);
+        }
+    }
+    .contacts__image {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @media (max-width: 1024px) {
+            margin-bottom: 30px;
+            max-width: 400px;
+            margin: 0 auto 20px auto;
+        }
+    }
+    .contacts__grid {
+        gap: 10px;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, 1fr);
+
+        @media (max-width: 576px) {
+            grid-template-columns: repeat(1, 1fr);
+            grid-template-rows: repeat(auto);
+            gap: 20px;
+        }
+
+        .contacts__card {
+            background-color: var(--color-gray);
+            padding: 30px;
+            border-radius: 10px;
+            @media (max-width: 1024px) {
+                padding: 20px;
+            }
+            @media (max-width: 576px) {
+                padding: 20px;
+                max-width: 300px;
+                min-width: 300px;
+                margin: 0 auto;
+            }
+            .contacts__title h4 {
+                @media (max-width: 1024px) {
+                    margin-bottom: 10px;
+                }
+            }
+            .contacts__body {
+                text-align: center;
+                gap: 10px;
+                display: flex;
+                justify-content: center;
+                flex-direction: column;
+            }
+        }
+    }
+</style>

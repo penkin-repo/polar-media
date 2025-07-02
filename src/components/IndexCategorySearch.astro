@@ -1,0 +1,216 @@
+---
+import { categorySearchData } from "../data/category.ts";
+// @ts-ignore
+import { Image } from "astro:assets";
+import NoResult from "./search/NoResult.astro";
+---
+<div id="categorySearchAnchor"></div>
+<div class="container" id="categorySearch" class="search">
+    <h2>Каталог услуг и&nbsp;товаров</h2>
+    <!-- поисковая строка -->
+    <div class="search__input">
+        <input
+            type="search"
+            name="search"
+            placeholder="Поиск..."
+            id="searchInput"
+            aria-label="Search"
+        />
+    </div>
+    <!-- карточки категорий -->
+    <div class="grid" id="categoriesContainer">
+        <NoResult />
+        <!-- карточки категорий -->
+        {
+            categorySearchData.categories.map((category) => (
+                <div class="search__card card">
+                    <div class="search__image">
+                        <Image
+                            src={category.image}
+                            alt={category.name}
+                            width={400}
+                            format="webp"
+                            quality={80}
+                        />
+                    </div>
+                    <div class="card-body">
+                        <h4 class="card-title">{category.name}</h4>
+                        <div class="subcategories">
+                            {category.subcategories.map((subcategory) => (
+                                <a href={subcategory.url} class="subcategory">
+                                    <small>{subcategory.name}</small>
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</div>
+
+<script>
+    // DOM elements
+    const categoriesContainer = document.getElementById(
+        "categoriesContainer",
+    ) as HTMLElement;
+    const searchInput = document.getElementById(
+        "searchInput",
+    ) as HTMLInputElement;
+    const resetSearch = document.getElementById("resetSearch") as HTMLElement;
+    const cards = document.querySelectorAll(".card") as NodeListOf<HTMLElement>;
+
+    // Render categories
+    function renderCategories(
+        searchTerm: string,
+        hasVisibleCards: boolean,
+        noResultsContainer: HTMLElement,
+    ) {
+        // Если поисковый запрос пустой, показываем все карточки и убираем подсветку
+        if (!searchTerm || searchTerm.length <= 2) {
+            cards.forEach((card) => {
+                card.style.display = "block"; // Показываем карточку
+                const title = card.querySelector(".card-title");
+                const subcategories = card.querySelectorAll(".subcategory");
+                if (title) title.classList.remove("highlight"); // Убираем подсветку с заголовка
+                subcategories.forEach((sub) =>
+                    sub.classList.remove("highlight"),
+                ); // Убираем подсветку с подкатегорий
+            });
+            noResultsContainer.classList.add("hidden");
+            return;
+        }
+
+        cards.forEach((card) => {
+            const title = card.querySelector(".card-title");
+            const subcategories = card.querySelectorAll(".subcategory");
+            let hasMatch = false;
+
+            // Проверяем совпадение в card-title
+            if (title) {
+                const titleText = (
+                    title as HTMLElement
+                ).textContent!.toLowerCase();
+                if (searchTerm.length >= 2 && titleText.includes(searchTerm)) {
+                    title.classList.add("highlight");
+                    hasMatch = true;
+                } else {
+                    title.classList.remove("highlight");
+                }
+            }
+
+            // Проверяем совпадение во всех subcategory
+            subcategories.forEach((sub) => {
+                const subText = (sub as HTMLElement).textContent!.toLowerCase();
+                if (searchTerm.length >= 2 && subText.includes(searchTerm)) {
+                    sub.classList.add("highlight");
+                    hasMatch = true;
+                } else {
+                    sub.classList.remove("highlight");
+                }
+            });
+
+            // Показываем или скрываем карточку в зависимости от наличия совпадений
+            card.style.display = hasMatch ? "block" : "none";
+            if (hasMatch) hasVisibleCards = true;
+        });
+
+        if (searchTerm.length >= 3 && !hasVisibleCards) {
+            noResultsContainer.classList.remove("hidden");
+        }
+
+        // Show/hide reset button
+        resetSearch.style.display = searchTerm ? "block" : "none";
+    }
+
+    // Search functionality
+    searchInput.addEventListener("input", () => {
+        const searchTerm = searchInput.value.trim().toLowerCase();
+        const noResultsContainer = document.querySelector("#noResults") as HTMLElement;
+        let hasVisibleCards = false;
+
+        renderCategories(searchTerm, hasVisibleCards, noResultsContainer);
+    });
+</script>
+
+<style>
+    #categorySearchAnchor {
+        height: 30px;
+        scroll-behavior: smooth
+    }
+    #categoriesContainer {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 40px 20px;
+        margin-bottom: calc(var(--pico-spacing) * 6);
+        @media (max-width: 768px) {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 50px 5px;
+        }
+
+    }
+    .search__card {
+        display: flex;
+        flex-direction: column;
+        .card-body {
+            display: flex;
+            flex-direction: column;
+            /* flex: 1; */
+            .card-title {
+                /* flex: 1; */
+            }
+        }
+    }
+    .search__image {
+        width: 100%;
+        max-width: 470px;
+        overflow: hidden;
+        display: block;
+        margin: 0 auto;
+        aspect-ratio: 3 / 2;
+        border: 2px solid var(--color-gray);
+        margin-bottom: var(--pico-typography-spacing-vertical);
+        border-radius: var(--pico-border-radius);
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    }
+    .subcategories {
+        display: flex;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 5px 15px;
+        /* margin-top: auto; */
+        @media (max-width: 768px) {
+            gap: 5px 5px;
+        }
+    }
+
+    .subcategory:hover {
+        transform: scale(1.02);
+    }
+
+    .card-title {
+        @media (max-width: 576px) {
+            font-size: 16px;
+        }
+    }
+
+    .highlight {
+        color: #232eb1;
+        font-weight: bold;
+    }
+
+    .category-highlight {
+        border: 2px solid #fcd34d;
+        box-shadow: 0 4px 10px rgba(252, 211, 77, 0.4);
+    }
+
+    .search__input {
+        margin: 0 auto;
+        max-width: 500px;
+        margin-bottom: calc(var(--pico-typography-spacing-vertical) * 1);
+    }
+</style>

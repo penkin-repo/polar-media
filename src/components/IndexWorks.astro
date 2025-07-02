@@ -1,0 +1,231 @@
+---
+import { Image } from "astro:assets";
+
+const imageImports = await Astro.glob("../assets/images/gallery/*");
+
+const totalImagesNeeded = 20;
+const slicedImages = imageImports.slice(0, totalImagesNeeded);
+
+// Определяем конфигурации для каждого типа плитки в нужной последовательности
+const tileDefinitions = [
+    { tileClasses: "tile tile-large dynamic-tile", numImages: 3 }, // Tile 1
+    { tileClasses: "tile tile-small ", numImages: 1 }, // Tile 2
+    { tileClasses: "tile tile-small dynamic-tile", numImages: 3 }, // Tile 3
+    { tileClasses: "tile tile-small", numImages: 1 }, // Tile 4
+    { tileClasses: "tile tile-small", numImages: 1 }, // Tile 5
+    { tileClasses: "tile tile-small dynamic-tile", numImages: 3 }, // Tile 6
+    { tileClasses: "tile tile-large", numImages: 1 }, // Tile 7
+    { tileClasses: "tile tile-small", numImages: 1 }, // Tile 8
+    { tileClasses: "tile tile-small dynamic-tile", numImages: 3 }, // Tile 9
+    { tileClasses: "tile tile-small dynamic-tile", numImages: 3 }, // Tile 10
+];
+
+const galleryTilesConfig = [];
+let currentImageIndex = 0; // Следим за тем, какую следующую картинку брать
+
+for (const definition of tileDefinitions) {
+    // Проверяем, достаточно ли осталось изображений
+    if (currentImageIndex + definition.numImages > slicedImages.length) {
+        console.warn(
+            `Недостаточно изображений для плитки с классами: ${definition.tileClasses}. Пропускаем или уменьшаем количество.`,
+        );
+        break;
+    }
+
+    const imagesForTile = slicedImages.slice(
+        currentImageIndex,
+        currentImageIndex + definition.numImages,
+    );
+
+    galleryTilesConfig.push({
+        tileClasses: definition.tileClasses,
+        imageItems: imagesForTile,
+    });
+
+    currentImageIndex += definition.numImages; // Сдвигаем индекс для следующей плитки
+}
+
+---
+<div class="works__header container grid">
+    <h2>Наши работы</h2>
+    <a href="/works">Смотреть все</a>
+</div>
+<div class="works container" id="gallery--getting-started">
+    
+    {
+        galleryTilesConfig.map((imageTiles) => (
+            <div class={imageTiles.tileClasses}>
+                {imageTiles.imageItems.map((image, index) => (
+                    <a
+                        href={image.default.src}
+                        data-pswp-width={image.default.width}
+                        data-pswp-height={image.default.height}
+                        target="_blank"
+                        class={index === 0 ? "active" : ""}
+                    >
+                        <Image
+                            src={image.default}
+                            class=""
+                            width={500}
+                            format="webp"
+                            quality={80}
+                            alt="image"
+                        />
+                    </a>
+                ))}
+            </div>
+        ))
+    }
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const dynamicTiles = document.querySelectorAll(".dynamic-tile");
+
+        dynamicTiles.forEach((tile) => {
+            const imgElements = Array.from(tile.querySelectorAll("a")); // Получаем все img внутри плитки
+
+            if (imgElements.length <= 1) {
+                // Если изображение одно или их нет, ничего не делаем с этой плиткой
+                // Убедимся, что единственное изображение видимо, если оно есть
+                if (
+                    imgElements.length === 1 &&
+                    !imgElements[0].classList.contains("active")
+                ) {
+                    imgElements[0].classList.add("active");
+                }
+                return;
+            }
+
+            let currentIndex = 0;
+            // Убедимся, что у первого изображения есть класс 'active', а у остальных нет.
+            // Это важно, если в HTML случайно забыли или поставили не тому.
+            imgElements.forEach((img, index) => {
+                if (index === 0) {
+                    img.classList.add("active");
+                    currentIndex = 0; // Начинаем с первого активного
+                } else {
+                    img.classList.remove("active");
+                }
+            });
+
+            // Если первое изображение в HTML не было помечено как active,
+            // но оно есть, ищем первое активное или делаем активным первое.
+            const initialActiveIndex = imgElements.findIndex((img) =>
+                img.classList.contains("active"),
+            );
+            if (initialActiveIndex !== -1) {
+                currentIndex = initialActiveIndex;
+            } else if (imgElements.length > 0) {
+                imgElements[0].classList.add("active"); // Делаем первое активным, если ни одно не было
+                currentIndex = 0;
+            }
+
+            // Рандомный интервал для каждой плитки (3-6 секунд)
+            const intervalTime = Math.random() * 3000 + 2000;
+
+            setInterval(() => {
+                imgElements[currentIndex].classList.remove("active");
+                currentIndex = (currentIndex + 1) % imgElements.length;
+                imgElements[currentIndex].classList.add("active");
+            }, intervalTime);
+        });
+    });
+</script>
+
+<style>
+
+    .works__header {
+        margin-bottom: calc(var(--pico-spacing) * 2);
+        h2 {
+            text-align: left;
+            margin-bottom: 0;
+        }
+        a {
+            text-align: right;
+            @media (max-width: 768px) {
+                text-align: left;
+            }
+        }
+    }
+    .works {
+        margin-bottom: calc(var(--pico-spacing) * 4);
+    }
+
+    .works {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-auto-rows: minmax(100px, auto);
+        gap: 30px;
+    }
+
+    .tile {
+        background-color: #0078d4;
+        position: relative;
+        overflow: hidden;
+        cursor: pointer;
+        aspect-ratio: 1 / 1;
+        border-radius: 10px;
+        overflow: hidden;
+        transition:
+            transform 0.2s ease-out,
+            box-shadow 0.2s ease-out;
+        /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    }
+
+    .tile-small {
+        grid-column: span 1;
+        grid-row: span 1;
+    }
+
+    .tile-large {
+        grid-column: span 2;
+        grid-row: span 2;
+    }
+
+    .tile a {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    .tile a {
+        opacity: 0;
+        z-index: 0;
+        user-select: none;
+        user-select: none;
+        transition: opacity 1s ease-in-out;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .tile img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        position: absolute;
+        top: 0;
+        left: 0;
+        transition: opacity 1s ease-in-out;
+    }
+
+    .tile a.active {
+        opacity: 1;
+        user-select: all;
+        z-index: 1;
+    }
+
+    @media (max-width: 768px) {
+        .works {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    @media (max-width: 480px) {
+        .works {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+ 
+</style>

@@ -1,0 +1,46 @@
+---
+
+---
+
+<div class="video-block__wrapper container">
+    <div class="video-block">
+        <video
+            controls
+            autoplay
+            loop
+            muted
+            playsinline
+            poster="https://avatars.mds.yandex.net/i?id=ec018b80097a89efec3c1480f064cb131664a78d-5501647-images-thumbs&n=13"
+        >
+            <source
+                src="https://videos.pexels.com/video-files/3255275/3255275-uhd_2560_1440_25fps.mp4"
+                type="video/mp4"
+            />
+            <!-- Вы можете добавить другие форматы для лучшей совместимости -->
+            <!-- <source src="path/to/your-video.webm" type="video/webm"> -->
+            <!-- Сообщение для браузеров, которые не поддерживают тег video -->
+            Ваш браузер не поддерживает тег video.
+        </video>
+    </div>
+</div>
+
+<style>
+    .video-block__wrapper {
+        margin-bottom: calc(var(--pico-spacing) * 1.5);
+    }
+    .video-block {
+        border-radius: 10px;
+        max-width: 910px;
+        max-height: 80vh;
+        margin: 0 auto;
+        overflow: hidden;
+        width: fit-content;
+        aspect-ratio: 16 / 9;
+    }
+    .video-block video {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+</style>

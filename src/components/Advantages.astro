@@ -1,0 +1,98 @@
+---
+import Icons from "./Icons.astro";
+---
+
+<div class="container">
+    <div class="advantages">
+        <div class="grid">
+            <div class="advantage">
+                <div class="advantage__image">
+                    <p>🏭🖨️</p>
+                    <!-- <Icons icon="print" /> -->
+                </div>
+                <div class="advantage__content">
+                    <h4>Собственное производство в&nbsp;Архангельске</h4>
+                </div>
+            </div>
+            <div class="advantage">
+                <div class="advantage__image">
+                    <p>🎨🔧</p>
+                    <!-- <Icons icon="palette" />
+                    <Icons icon="wrench" /> -->
+                </div>
+                <div class="advantage__content">
+                    <h4>Все этапы работ: от&nbsp;дизайна до&nbsp;монтажа</h4>
+                </div>
+            </div>
+            <div class="advantage">
+                <div class="advantage__image">
+                    <p>🏙️👨‍💻</p>
+                    <!-- <Icons icon="city" /> -->
+                </div>
+                <div class="advantage__content">
+                    <h4>
+                        Хорошо знаем рынок Архангельска и&nbsp;Северодвинска
+                    </h4>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .advantages {
+        padding: 50px;
+        border-radius: 10px;
+        background-color: var(--color-gray);
+        margin-bottom: calc(var(--pico-spacing) * 5);
+        position: relative;
+
+        .advantage {
+            position: relative;
+            padding-inline: 10px;
+
+            &::after {
+                content: "";
+                width: 4px;
+                height: 80%;
+                background-color: #ececec;
+                position: absolute;
+                top: 50%;
+                right: -10px;
+                transform: translateY(-50%);
+
+                @media (max-width: 768px) {
+                    bottom: -20px;
+                    top: auto;
+                    width: 60px;
+                    height: 4px;
+                    right: calc(50% - 30px);
+                }
+            }
+            &:last-child::after {
+                display: none;
+            }
+        }
+
+        .grid {
+            gap: 50px 30px;
+        }
+
+        .advantage__image {
+            text-align: center;
+        }
+
+        h4 {
+            margin-bottom: 0;
+            @media (max-width: 1024px) {
+                font-size: 1rem;
+            }
+        }
+
+        i, p {
+            font-size: 30px;
+            min-width: 50px;
+            margin-bottom: 20px;
+        }
+    }
+</style>

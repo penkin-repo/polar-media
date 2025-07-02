@@ -1,0 +1,149 @@
+---
+import Icons from "./Icons.astro";
+import { Image } from "astro:assets";
+import qr from "../assets/images/svg/telegram-qr.svg";
+import bear from "../assets/images/bear/bear-call.png";
+import { typografify } from "../utils/typography";
+const { id } = Astro.props;
+---
+
+<dialog id={id}>
+    <article class="call">
+        <!-- <div class="call__title">
+            <p>{typografify("Cвяжемся, проконсультируем и&nbsp;поможем оформить заказ")}</h2>
+        </div> -->
+        <div class="call__body">
+            <div class="call__social">
+                <a href="https://t.me/+79657333889" class="call__icon-body">
+                    <div class="call__icon"><Icons icon="tg" /></div>
+                    <div class="call__icon-text">Telegram</div>
+                </a>
+                <a href="https://wa.me/+79657333889" class="call__icon-body">
+                    <div class="call__icon"><Icons icon="whatsapp" /></div>
+                    <div class="call__icon-text">WhatsApp</div>
+                </a>
+                <a href="tel:+79657333889" class="call__icon-body">
+                    <div class="call__icon"><Icons icon="phone" /></div>
+                    <div class="call__icon-text">Позвонить</div>
+                </a>
+                <a href="mailto:af423889@gmail.com" class="call__icon-body">
+                    <div class="call__icon"><Icons icon="mail" /></div>
+                    <div class="call__icon-text">Почта</div>
+                </a>
+            </div>
+            <div class="call__qr">
+                <div class="call__qr-wrapper">
+                    <div class="call__qr-image">
+                        <img src={qr.src} alt="qr polar media" />
+                    </div>
+                    <div class="call__qr-text">Написать в telegram</div>
+                </div>
+            </div>
+            <!-- <div class="call__image">
+                <Image
+                    src={bear}
+                    class=""
+                    width={500}
+                    format="webp"
+                    quality={80}
+                    alt="polar media bear"
+                />
+            </div> -->
+        </div>
+
+        <footer>
+            <button id={id + "-close"}>Закрыть</button>
+        </footer>
+    </article>
+</dialog>
+
+<style>
+    .call {
+        margin-bottom: calc(var(--pico-spacing) * 5);
+        .call__title {
+            padding: 50px;
+            border-radius: 10px;
+            background-color: var(--color-gray);
+            @media (max-width: 1024px) {
+                padding: 20px;
+            }
+            margin-bottom: 10px;
+            h2 {
+                margin-bottom: 0;
+            }
+        }
+        .call__body {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            /* grid-template-rows: repeat(2, 1fr); */
+            padding: 20px;
+            border-radius: 10px;
+            background-color: var(--color-gray);
+            gap: 30px;
+            @media (max-width: 1024px) {
+                padding: 20px;
+            }
+            @media (max-width: 576px) {
+                grid-template-columns: repeat(1, 1fr);
+            }
+
+            .call__social {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                grid-template-rows: repeat(2, 1fr);
+                gap: 10px 20px;
+                max-width: 400px;
+                margin: 0 auto;
+                @media (max-width: 576px) {
+                    max-width: 200px;
+                }
+                .call__icon-body {
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    .call__icon {
+                        font-size: 50px;
+                        text-align: center;
+                        @media (max-width: 576px) {
+                            font-size: 20px;
+                        }
+                    }
+                    .call__icon-text {
+                        text-align: center;
+                    }
+                }
+            }
+
+            .call__qr {
+                .call__qr-wrapper {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0px;
+                    padding: 20px;
+                    border-radius: 10px;
+                    background-color: white;
+                    max-width: 260px;
+                    padding: 20px;
+                    margin: 0 auto;
+                    @media (max-width: 576px) {
+                        max-width: 200px;
+                    }
+                }
+
+                .call__qr-image {
+                }
+
+                .call__qr-text {
+                    text-align: center;
+                }
+            }
+
+            .call__image {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+        }
+    }
+</style>

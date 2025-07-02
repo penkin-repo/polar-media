@@ -1,0 +1,17 @@
+---
+import "../styles/pico.css";
+import "../styles/global.css";
+import SecondaryLayout from "../layouts/SecondaryLayout.astro";
+import PagesSection from "../components/PagesSection.astro";
+import PagesHero from "../components/PagesHero.astro";
+import { typografify } from "../utils/typography";
+
+---
+<SecondaryLayout
+    title={"Печать баннеров в Архангельске | Полар Медиа | Производство рекламы"}
+    pageTitle={typografify("Печать баннеров в Архангельске")}
+>
+    <PagesSection>
+        <PagesHero />
+    </PagesSection>
+</SecondaryLayout>

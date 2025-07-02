@@ -1,0 +1,45 @@
+---
+const { icon = "map" } = Astro.props;
+
+interface IconProps {
+    [key: string]: string;
+}
+
+const icons: IconProps = {
+    map: "fa-solid fa-location-dot",
+    phone: "fa-solid fa-phone",
+    mail: "fa-solid fa-envelope",
+    vk: "fa-brands fa-vk",
+    whatsapp: "fa-brands fa-whatsapp",
+    tg: "fa-brands fa-telegram",
+    menu: "fa-solid fa-bars",
+    star: "fa-solid fa-star custom-yellow",
+    search: "fa-solid fa-magnifying-glass",
+    print: "fa-solid fa-print custom-blue",
+    palette: "fa-solid fa-palette custom-blue",
+    wrench: "fa-solid fa-wrench custom-blue",
+    city: "fa-solid fa-city custom-blue",
+    bolt: "fa-solid fa-bolt custom-blue",
+    car: "fa-solid fa-car custom-blue",
+    gem: "fa-solid fa-gem custom-blue",
+    calc: "fa-solid fa-calculator",
+};
+---
+
+<i class=`custom-icon ${icons[icon]}`></i>
+
+<style>
+    .custom-icon {
+        margin-right: 3px;
+    }
+    .custom-yellow {
+        color: #ffd43b;
+    }
+    .custom-blue-1 {
+        color: #2600ff;
+    }
+    .custom-blue {
+        /* color: #232EB1; */
+        color: #525f7a;
+    }
+</style>

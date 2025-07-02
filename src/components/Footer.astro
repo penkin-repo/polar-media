@@ -1,0 +1,69 @@
+---
+import logo from "../assets/images/svg/logo-main-white.svg";
+---
+
+<footer data-theme="dark" class="footer container">
+    <article>
+        <div class="footer__wrapper">
+            <hgroup class="grid">
+                <!-- Company Info -->
+                <p>
+                    <a href="/">
+                        <img
+                            src={logo.src}
+                            alt="logo polar media Логотип компании Полар Медиа"
+                            width="200"
+                        />
+                    </a>
+                </p>
+
+                <!-- Copyright -->
+                <p>
+                    <small
+                        >© 2020-<span id="currentYear"></span> Полар Медиа</small
+                    >
+                </p>
+                <!-- Developed -->
+                <p>
+                    <a
+                        href="https://github.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        <small
+                            >Разработано <span>(͡° ͜ʖ ͡°)◞✺</span> А-Пенкин</small
+                        >
+                    </a>
+                </p>
+            </hgroup>
+        </div>
+    </article>
+</footer>
+
+<script>
+    // Получаем элемент по ID
+    const yearElement = document.getElementById("currentYear") as HTMLElement;
+    // Получаем текущий год
+    const currentYear = new Date().getFullYear() as number;
+    // Устанавливаем год в элемент
+    if (yearElement) yearElement.textContent = currentYear.toString();
+</script>
+
+<style>
+    .footer {
+        .footer__wrapper {
+            padding: 30px 50px;
+            border-radius: 10px;
+
+            @media (max-width: 1024px) {
+                padding: 20px;
+            }
+
+            .grid {
+                align-items: center;
+                justify-items: center;
+                margin: 0;
+            }
+        }
+    }
+</style>
