@@ -11,10 +11,10 @@ import Call from "../components/Call.astro";
 
 
 <MainLayout>
-	<Hero />
-	<IndexVideo />
-	<Advantages />
-	<IndexWorks />
-	<IndexCategorySearch />
-	<Call />
+	<Hero/>
+	<IndexVideo client:visible/>
+	<Advantages client:visible/>
+	<IndexWorks client:visible/>
+	<IndexCategorySearch client:visible/>
+	<Call client:visible/>
 </MainLayout>
