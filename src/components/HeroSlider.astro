@@ -22,6 +22,7 @@ const slides = [
                     widths={[240, 300, 500]}
                     sizes={`(max-width: 360px) 240px, (max-width: 720px) 300px, 500px`}
                     loading="eager"
+                    fetchpriority="high"
                     format="webp"
                     quality={80}
                     decoding="async"
@@ -32,7 +33,7 @@ const slides = [
 </div>
 
 <script>
-    const test = document.getElementById("hero-slider") as HTMLElement;
+    const slider = document.getElementById("hero-slider") as HTMLElement;
     // @ts-ignore
     import KeenSlider from "keen-slider";
     // @ts-ignore
@@ -149,12 +150,19 @@ const slides = [
     const keenSliderInstance = new KeenSlider("#hero-slider", { loop: true }, [
         navigation,
     ]);
-    test.style.opacity = "1";
-    console.log(test.style.display);
+    slider.style.flexWrap = "nowrap";
 </script>
 
 <style >
 #hero-slider {
-    opacity: 0;
+    /* opacity: 0; */
+    display:flex;
+    flex-wrap: wrap;
+    aspect-ratio: 300 / 200;
+    overflow: hidden;
+    .number-slide1 {
+        width: 100%;
+
+    }
 }
 </style>
