@@ -1,0 +1,59 @@
+# Название нашего "действия"
+name: Build and Deploy Astro to FTP
+
+# Запускать при push в ветку 'main'
+on:
+  push:
+    branches:
+      - main # или 'master'
+
+jobs:
+  build-and-deploy:
+    # Запускаем на свежей версии Ubuntu
+    runs-on: ubuntu-latest
+    
+    steps:
+      # ШАГ 1: Скачиваем исходный код вашего репозитория
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      # ШАГ 2: Устанавливаем Node.js, чтобы можно было запустить npm
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18' # Укажите версию Node.js, которую используете
+          cache: 'npm'
+
+      # ШАГ 3: Устанавливаем все зависимости проекта
+      - name: Install Dependencies
+        run: npm ci # 'npm ci' быстрее и надежнее для автоматизации, чем 'npm install'
+
+      # ШАГ 4: Собираем проект. Эта команда создаст папку 'dist'
+      - name: Build Project
+        run: npm run build
+
+      # ШАГ 5: Загружаем результат сборки на хостинг
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          # Данные для доступа из секретов
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          
+          # Указываем, какую локальную папку загружать.
+          # Это САМЫЙ ВАЖНЫЙ шаг для вас!
+          local-dir: ./dist/
+          
+          # Указываем, в какую папку на сервере загружать.
+          # Укажите вашу корневую папку сайта (public_html, httpdocs и т.д.)
+          server-dir: /polar-media/public_html
+          
+          # (Опционально, но рекомендуется) Использовать SFTP для безопасности
+          # protocol: sftp
+          # port: 22
+
+          # (Опционально, ОЧЕНЬ ПОЛЕЗНО) Очищать папку на сервере перед загрузкой.
+          # Это удалит старые, ненужные файлы с хостинга.
+          # ИСПОЛЬЗУЙТЕ С ОСТОРОЖНОСТЬЮ! Убедитесь, что server-dir указан верно.
+          # dangerous-clean-slate: false
