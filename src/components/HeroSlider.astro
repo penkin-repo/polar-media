@@ -3,7 +3,7 @@ import { Image } from "astro:assets";
 import slide1 from "../assets/images/1.png";
 import slide2 from "../assets/images/2.png";
 
-// УЛУЧШЕНИЕ: Выносим данные слайдов в массив для чистоты кода
+// Выносим данные слайдов в массив для чистоты кода
 const slides = [
     { src: slide1, alt: "Первый слайд", slideClass: "number-slide1" },
     { src: slide2, alt: "Второй слайд", slideClass: "number-slide2" },
@@ -18,8 +18,10 @@ const slides = [
                 <Image
                     src={slide.src}
                     alt={slide.alt}
-                    widths={[400, 600, 800]}
-                    sizes="(max-width: 600px) 350px, (max-width: 900px) 600px, 800px"
+                    // widths={[350, 600, 800]}
+                    // sizes={"(max-width: 600px) 350px, (max-width: 900px) 600px, 800px"}
+                    widths={[240, 300, 500]}
+                    sizes={`(max-width: 360px) 240px, (max-width: 720px) 300px, 500px`}
                     loading="eager"
                     format="webp"
                     quality={80}

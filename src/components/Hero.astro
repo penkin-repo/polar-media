@@ -19,7 +19,7 @@ import HeroSlider from "./HeroSlider.astro";
                 <a href="/contacts" role="button" class="contrast" tabindex="0"
                     >Связаться</a
                 >
-                <a href="#categorySearchAnchor" role="button" class=""
+                <a href="#categorySearchAnchor" role="button" class="hero__search"
                     ><Icons icon="search" /></a
                 >
             </div>
@@ -49,6 +49,16 @@ import HeroSlider from "./HeroSlider.astro";
             @media (max-width: 1024px) {
                 grid-template-columns: 1fr 1fr 60px;
                 gap: 5px;
+            }
+
+            @media (max-width: 576px) {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .hero__search {
+              @media (max-width: 576px) {
+                display: none;
+              }  
             }
 
             .fa-magnifying-glass {

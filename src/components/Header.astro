@@ -53,7 +53,8 @@ const { address, topLinks, bottomLinks } = headerData;
         <a href="#categorySearchAnchor"><Icons icon="search" /></a>
         <!-- 🦜 десктопное меню -->
         <details class="dropdown header__navigation">
-            <summary>Навигация</summary>
+            <!-- <summary>Навигация</summary> -->
+            <summary><Icons icon="menu" /></summary>
             <!-- 🦜 навигация -->
             <ul>
                 {
@@ -67,7 +68,7 @@ const { address, topLinks, bottomLinks } = headerData;
         </details>
         <!-- 🔹 мобильное меню -->
         <details class="dropdown header__mobile-menu">
-            <summary><Icons icon="menu" /></summary>
+            <summary><Icons icon="phone" /></summary>
             <!-- 🦜 мобильное меню -->
             <ul>
                 {topLinks.map((link) => (
