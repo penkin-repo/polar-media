@@ -13,6 +13,7 @@
     "astro": "^5.9.4",
     "keen-slider": "^6.8.6",
     "photoswipe": "^5.4.4",
+    "sharp": "^0.34.2",
     "typograf": "^7.4.4"
   }
 }
