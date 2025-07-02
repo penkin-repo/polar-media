@@ -17,43 +17,36 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      # ШАГ 2: Устанавливаем Node.js, чтобы можно было запустить npm
+      # ШАГ 2: Устанавливаем pnpm (ЭТО ВАЖНОЕ ИЗМЕНЕНИЕ)
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8 # Укажите вашу версию pnpm, если она отличается
+
+      # ШАГ 3: Устанавливаем Node.js. 
+      # Этот шаг должен идти ПОСЛЕ установки pnpm для правильной работы кэширования
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '18' # Укажите версию Node.js, которую используете
-          cache: 'npm'
+          node-version: '18'
+          # Используем кэш для pnpm, а не npm
+          cache: 'pnpm'
 
-      # ШАГ 3: Устанавливаем все зависимости проекта
+      # ШАГ 4: Устанавливаем все зависимости проекта через pnpm
       - name: Install Dependencies
-        run: npm ci # 'npm ci' быстрее и надежнее для автоматизации, чем 'npm install'
+        run: pnpm install --frozen-lockfile # Это аналог 'npm ci' для pnpm
 
-      # ШАГ 4: Собираем проект. Эта команда создаст папку 'dist'
+      # ШАГ 5: Собираем проект. Astro сам поймет, что нужно использовать pnpm.
       - name: Build Project
         run: pnpm run build
 
-      # ШАГ 5: Загружаем результат сборки на хостинг
+      # ШАГ 6: Загружаем результат сборки на хостинг (этот блок без изменений)
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          # Данные для доступа из секретов
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          
-          # Указываем, какую локальную папку загружать.
-          # Это САМЫЙ ВАЖНЫЙ шаг для вас!
           local-dir: ./dist/
-          
-          # Указываем, в какую папку на сервере загружать.
-          # Укажите вашу корневую папку сайта (public_html, httpdocs и т.д.)
-          server-dir: /polar-media/public_html
-          
-          # (Опционально, но рекомендуется) Использовать SFTP для безопасности
-          # protocol: sftp
-          # port: 22
-
-          # (Опционально, ОЧЕНЬ ПОЛЕЗНО) Очищать папку на сервере перед загрузкой.
-          # Это удалит старые, ненужные файлы с хостинга.
-          # ИСПОЛЬЗУЙТЕ С ОСТОРОЖНОСТЬЮ! Убедитесь, что server-dir указан верно.
-          # dangerous-clean-slate: false
+          server-dir: /polar-media/public_html/
+          dangerous-clean-slate: false
