@@ -30,7 +30,7 @@ jobs:
 
       # ШАГ 4: Собираем проект. Эта команда создаст папку 'dist'
       - name: Build Project
-        run: npm run build
+        run: pnpm run build
 
       # ШАГ 5: Загружаем результат сборки на хостинг
       - name: FTP Deploy
