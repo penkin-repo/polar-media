@@ -1,3 +1,9 @@
+@import "keen-slider/keen-slider.min.css";
+
+@import "pico.css";
+@import "photoswipe/style.css";
+
+
 :root {
 
   /* Цветовая палитра */
