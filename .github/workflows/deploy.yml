@@ -47,6 +47,12 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          
+          # Явно указываем протокол SFTP и его стандартный порт
+          # Timeweb использует стандартный порт 22
+          protocol: sftp
+          port: 22
+          
           local-dir: ./dist/
           server-dir: /polar-media/public_html/
           dangerous-clean-slate: false
