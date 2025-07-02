@@ -41,24 +41,33 @@ jobs:
         run: pnpm run build
 
       # ШАГ 6: Загружаем результат сборки на хостинг (этот блок без изменений)
-      - name: SFTP Deploy
-        uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      - name: FTP Deploy
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
         with:
-          # Адрес сервера (тот же, что и для FTP)
           server: ${{ secrets.FTP_SERVER }}
-          # Логин (тот же)
           username: ${{ secrets.FTP_USERNAME }}
-          # Пароль (тот же)
           password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: ./dist/
+          server-dir: /polar-media/public_html/
+          dangerous-clean-slate: false
+      # - name: SFTP Deploy
+      #   uses: wlixcc/SFTP-Deploy-Action@v1.2.4
+      #   with:
+      #     # Адрес сервера (тот же, что и для FTP)
+      #     server: ${{ secrets.FTP_SERVER }}
+      #     # Логин (тот же)
+      #     username: ${{ secrets.FTP_USERNAME }}
+      #     # Пароль (тот же)
+      #     password: ${{ secrets.FTP_PASSWORD }}
           
-          # Порт SFTP
-          port: 22
+      #     # Порт SFTP
+      #     port: 22
           
-          # Локальная папка, которую нужно загрузить
-          local_path: ./dist/
+      #     # Локальная папка, которую нужно загрузить
+      #     local_path: ./dist/
           
-          # Папка на сервере, куда загружать
-          remote_path: /polar-media/public_html/
+      #     # Папка на сервере, куда загружать
+      #     remote_path: /polar-media/public_html/
           
           # (Опционально) Аргументы. '-a' означает "архивный режим",
           # '-v' - подробный вывод, '-z' - сжатие.
